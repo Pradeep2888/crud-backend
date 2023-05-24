@@ -9,7 +9,7 @@ roomRouter.get("/",async(req,res)=>{
     res.send({"room":data})
 })
 
-roomRouter.post("/add/:hotel_id",async(req,res)=>{
+roomRouter.post("/add/:hotel_id",authentication,async(req,res)=>{
     const {hotel_id}=req.params
     let {room_type,no_of_rooms,no_of_avilable, price,date}=req.body
     const isRoom = await RoomModel.findOne({room_type,date})
@@ -38,7 +38,7 @@ roomRouter.post("/add/:hotel_id",async(req,res)=>{
 })
 
 
-roomRouter.delete("/delete/:id",async(req,res)=>{
+roomRouter.delete("/delete/:id",authentication,async(req,res)=>{
   
     const {id}=req.params
   
