@@ -3,8 +3,9 @@ const { registerRouter } = require("./routes/register.route");
 const { loginRouter } = require("./routes/login.route");
 const cors = require("cors");
 const { connection } = require("./config/db");
-const hotelRouter = require("./Routes/hotel.route");
-const roomRouter = require("./Routes/room.route");
+const hotelRouter = require("./routes/hotel.route");
+const roomRouter = require("./routes/room.route");
+const { bookingRouter } = require("./routes/booking.route");
 
 
 
@@ -21,6 +22,7 @@ app.use("/register",registerRouter)
 app.use("/login",loginRouter)
 app.use("/hotel",hotelRouter)
 app.use("/room",roomRouter)
+app.use("/booking",bookingRouter)
 
 
 

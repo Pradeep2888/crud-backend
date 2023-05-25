@@ -4,8 +4,9 @@ const loginRouter=express.Router()
 const jwt=require("jsonwebtoken")
 
 
-loginRouter.get("/",(req,res)=>{
-    res("welcome to login page")
+loginRouter.get("/",async(req,res)=>{
+    const users=await UserModel.find()
+    res.send({"data":users})
 })
 
 
@@ -13,6 +14,11 @@ loginRouter.get("/",(req,res)=>{
 loginRouter.post("/user",async (req,res)=>{
     const {email,password}=req.body
     const user= await UserModel.findOne({email})
+    if(!user){
+        res.send({"msg":"please write registerd mail address"})
+    }
+    else{
+
     const user_detail={
         user_id:user._id,
         user_type:user.user_type
@@ -28,7 +34,7 @@ loginRouter.post("/user",async (req,res)=>{
         else{
             res.send({"msg":"Login faild"})
         }
- 
+    }
 })
 
 
