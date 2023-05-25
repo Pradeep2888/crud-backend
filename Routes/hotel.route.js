@@ -5,6 +5,7 @@ const hotelRouter=express.Router()
 
 
 hotelRouter.get("/",async(req,res)=>{
+   
     const data=await HotelModel.find()
     res.send({"hotel":data})
 })

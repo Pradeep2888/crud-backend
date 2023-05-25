@@ -5,11 +5,28 @@ const { RoomModel } = require("../models/RoomModel")
 const roomRouter=express.Router()
 
 roomRouter.get("/",async(req,res)=>{
-    const data=await RoomModel.find()
-    res.send({"room":data})
+    const q=req.query
+    // console.log(params)
+    if(q.type){
+        const data=await RoomModel.find({"room_type":q.type})
+        res.send({"room":data})
+    }
+    else if(q.date){
+        const data=await RoomModel.find({"date":q.date})
+        res.send({"room":data})
+    }
+    else if(q.date && q.type){
+        const data=await RoomModel.find({"date":q.date,"room_type":q.type})
+        res.send({"room":data})
+    }
+    else{
+        const data=await RoomModel.find()
+        res.send({"room":data})
+    }
+  
 })
 
-roomRouter.post("/add/:hotel_id",async(req,res)=>{
+roomRouter.post("/add/:hotel_id",authentication,async(req,res)=>{
     const {hotel_id}=req.params
     let {room_type,no_of_rooms,no_of_avilable, price,date}=req.body
     const isRoom = await RoomModel.findOne({room_type,date})
@@ -38,7 +55,7 @@ roomRouter.post("/add/:hotel_id",async(req,res)=>{
 })
 
 
-roomRouter.delete("/delete/:roomid",async(req,res)=>{
+roomRouter.delete("/delete/:roomid",authentication,async(req,res)=>{
   
     const {roomid}=req.params
   
@@ -54,7 +71,7 @@ roomRouter.delete("/delete/:roomid",async(req,res)=>{
 })
 
 
-roomRouter.patch("/update/:roomid",async(req,res)=>{
+roomRouter.patch("/update/:roomid",authentication,async(req,res)=>{
     const {roomid}=req.params
     const {room_type,no_of_avilable,no_of_rooms,price,date}=req.body
 
